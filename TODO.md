@@ -9,7 +9,8 @@
 * [ ] add question to comment a function that is fully written  
 * [ ] add question to ask a gen AI to write a function and compare  
   
-**Manuscript**
+**Manuscript**  
+*JChemEd*
 * [ ] detailed outline  
 * [ ] introduction  
   - review of CURE's
@@ -23,6 +24,11 @@
   - description of the activities and intended use (partners?)   
 * [ ] supporting information  
   - additional files / scripts from jacob about the other CX3 radicals? how is this appropriate to integrate?  
+  
+*PhysChemLet*  
+* similar to above - needs to be published ***FIRST***  
+* this is now the priority  
+* if I can do the distance calcs + analysis in ~5 hours, then I can include it
   
 **Presentation(s)**
 * [ ] JChemEd
@@ -49,4 +55,3 @@
   - connect to reactivity  
     - scans of redox potential, describe deformation to enhance / stabilize different ox states  
       - can we stimulate appropriate IR stretches to enhance degradation efficiency in aqueous electron systems? (CHECK IF THIS HAS BEEN DONE)  
-       
