@@ -92,12 +92,12 @@ def get_frontier_orbital_energies(outfile, heteroatom) -> list:
     # get the orbital energies for orbitals below the HOMO
     core_orbital_energies = []
     if heteroatom == 'F':
-        for index in range(1,15):
+        for index in range(1,16):
             energy = sum(moenergies[:, n_homo-index])/2 # [hartree]
             core_orbital_energies.append(energy)
 
     elif heteroatom == 'H':
-        for index in range(1,15):
+        for index in range(1,16):
             if index <= 3:
                 # the CH3 radical has fewer MOs than CF3
                 # but we want the data to be the same shape for both molecules
