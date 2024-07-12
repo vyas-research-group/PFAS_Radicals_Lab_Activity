@@ -70,6 +70,11 @@ def get_partial_charges(outfile) -> list:
     heteroatom_partial_charge = np.average(outfile.atomcharges['mulliken'][1:4]) # [-]
     return [carbon_partial_charge, heteroatom_partial_charge]
 
+def get_spin_density(outfile) -> list:
+    carbon_spin_density = outfile.atomspins['mulliken'][0]
+    heteroatom_spin_density = np.average(outfile.atomspins['mulliken'][1:])
+    return [carbon_spin_density, heteroatom_spin_density]
+
 def get_frontier_orbital_energies(outfile, heteroatom) -> list:
     # get the orbital number for the frontier orbitals
     n_homo = min(outfile.homos)
@@ -92,12 +97,12 @@ def get_frontier_orbital_energies(outfile, heteroatom) -> list:
     # get the orbital energies for orbitals below the HOMO
     core_orbital_energies = []
     if heteroatom == 'F':
-        for index in range(1,15):
+        for index in range(1,16):
             energy = sum(moenergies[:, n_homo-index])/2 # [hartree]
             core_orbital_energies.append(energy)
 
     elif heteroatom == 'H':
-        for index in range(1,15):
+        for index in range(1,16):
             if index <= 3:
                 # the CH3 radical has fewer MOs than CF3
                 # but we want the data to be the same shape for both molecules
@@ -139,17 +144,20 @@ def parse_outfile(outfile_path : str) -> "tuple[list, list]":
     # get the partial charges
     partial_charges = get_partial_charges(outfile)
 
+    # get the spin density
+    spin_densities = get_spin_density(outfile)
+
     # get the frontier orbital energies
     frontier_orbital_energies = get_frontier_orbital_energies(outfile, heteroatom)
 
     # compile the data to return
     data_names = ['heteroatom', 'bond_angle[deg]', 'scf_energy[hartree]', 'bond_length[angstrom]', 'ir_frequency[wavenumbers]', 'force_constant[mg/s^2]', \
-                  'carbon_partial_charge[-]', 'heteroatom_partial_charge[-]', 'homo_energy[hartree]', 'somo-a_energy[hartree]', 'somo-b_energy[hartree]', 'lumo_energy[hartree]', \
-                  'lumo+1_energy[hartree]', 'lumo+2_energy[hartree]', 'homo-1_energy[hartree]', 'homo-2_energy[hartree]', 'homo-3_energy[hartree]', \
-                  'homo-4_energy[hartree]', 'homo-5_energy[hartree]', 'homo-6_energy[hartree]', 'homo-7_energy[hartree]', 'homo-8_energy[hartree]', \
-                  'homo-9_energy[hartree]', 'homo-10_energy[hartree]', 'homo-11_energy[hartree]', 'homo-12_energy[hartree]', 'homo-13_energy[hartree]', \
-                  'homo-14_energy[hartree]', 'homo-15_energy[hartree]']
+                  'carbon_partial_charge[-]', 'heteroatom_partial_charge[-]', 'carbon_spin_density[-]', 'heteroatom_spin_density[-]', 'homo_energy[hartree]', \
+                  'somo-a_energy[hartree]', 'somo-b_energy[hartree]', 'lumo_energy[hartree]', 'lumo+1_energy[hartree]', 'lumo+2_energy[hartree]', \
+                  'homo-1_energy[hartree]', 'homo-2_energy[hartree]', 'homo-3_energy[hartree]','homo-4_energy[hartree]', 'homo-5_energy[hartree]', \
+                  'homo-6_energy[hartree]', 'homo-7_energy[hartree]', 'homo-8_energy[hartree]', 'homo-9_energy[hartree]', 'homo-10_energy[hartree]', \
+                  'homo-11_energy[hartree]', 'homo-12_energy[hartree]', 'homo-13_energy[hartree]', 'homo-14_energy[hartree]', 'homo-15_energy[hartree]']
     
-    data = [heteroatom, bond_angle, SCF_energy, bond_length, IR_frequency, force_constant, *partial_charges, *frontier_orbital_energies]
+    data = [heteroatom, bond_angle, SCF_energy, bond_length, IR_frequency, force_constant, *partial_charges, *spin_densities, *frontier_orbital_energies]
     
     return data_names, data
